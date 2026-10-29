@@ -10,7 +10,7 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/boxlinknet/kwtsms-prestashop/releases/latest"><img src="https://img.shields.io/github/v/release/boxlinknet/kwtsms-prestashop?style=flat-square&label=version&color=FFA200" alt="Version"></a>
+  <a href="https://github.com/kwtsms/kwtsms-prestashop/releases/latest"><img src="https://img.shields.io/github/v/release/kwtsms/kwtsms-prestashop?style=flat-square&label=version&color=FFA200" alt="Version"></a>
   <img src="https://img.shields.io/badge/PrestaShop-8.0--9.x-251B5B?style=flat-square&logo=prestashop&logoColor=white" alt="PrestaShop 8.0 - 9.x">
   <img src="https://img.shields.io/badge/PHP-%3E%3D7.4-777BB4?style=flat-square&logo=php&logoColor=white" alt="PHP >= 7.4">
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-AFL--3.0-blue?style=flat-square" alt="License"></a>
@@ -51,7 +51,7 @@ Additional capabilities:
 
 ## Installation
 
-1. Download `kwtsms.zip` from the [latest release](https://github.com/boxlinknet/kwtsms-prestashop/releases/latest)
+1. Download `kwtsms.zip` from the [latest release](https://github.com/kwtsms/kwtsms-prestashop/releases/latest)
 2. In your PrestaShop back office, go to **Modules > Module Manager**
 3. Click **Upload a module** and select the `kwtsms.zip` file
 4. After the upload completes, the module is installed automatically
