@@ -77,7 +77,7 @@ To verify the connection works, scroll down to the **Test SMS** section, enter a
 ### Step 2: Set admin phone numbers (Settings tab)
 
 1. Open the **Settings** tab
-2. In the **Admin Phone Numbers** field, enter one or more phone numbers separated by commas (include the country code, e.g. `96598765432`)
+2. In the **Admin Phone Numbers** field, enter one or more phone numbers separated by commas (include the country code, e.g. `965XXXXXXXX`)
 3. These numbers receive admin notifications: new orders, new customers, payment confirmations, and low stock alerts
 
 ### Step 3: Enable notifications (Settings tab)

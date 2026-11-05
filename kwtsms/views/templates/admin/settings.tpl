@@ -25,10 +25,11 @@
     <div class="panel-body">
       <div class="form-group">
         <label for="kwtsms_admin_phones">{l s='Admin Phone Numbers' mod='kwtsms'}</label>
+        {* 2026-11-05 11:11 +03: placeholder 965XXXXXXXX replaces sample mobile numbers that belong to real people, int-testnumber *}
         <input type="text" id="kwtsms_admin_phones" name="kwtsms_admin_phones"
                class="form-control" style="max-width: 500px;"
                value="{$admin_phones|escape:'html':'UTF-8'}"
-               placeholder="e.g. 96598765432, 96512345678" />
+               placeholder="e.g. 965XXXXXXXX, 965XXXXXXXX" />
         <p class="help-block">
           {l s='Comma-separated phone numbers that receive admin alerts (new orders, new customers, low stock, etc.). Include the country code.' mod='kwtsms'}
         </p>

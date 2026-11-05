@@ -219,9 +219,10 @@
         <div class="col-md-4">
           <div class="form-group">
             <label for="test_phone">{l s='Phone Number' mod='kwtsms'}</label>
+            {* 2026-11-05 11:11 +03: placeholder 965XXXXXXXX replaces sample mobile numbers that belong to real people, int-testnumber *}
             <input type="text" id="test_phone" name="test_phone"
                    class="form-control"
-                   placeholder="e.g. 96598765432"
+                   placeholder="e.g. 965XXXXXXXX"
                    value="{if isset($test_phone)}{$test_phone|escape:'html':'UTF-8'}{/if}" />
           </div>
         </div>
