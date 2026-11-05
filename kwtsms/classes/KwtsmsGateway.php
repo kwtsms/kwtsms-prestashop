@@ -26,6 +26,21 @@ class KwtsmsGateway
     private $client;
 
     /**
+     * App token for the kwtSMS User-Agent: "kwtsms-prestashop/<module version>".
+     * 2026-11-05 14:59 +03: added so kwtSMS can count accounts per integration (name and version only,
+     * no personal data); the version is the module's own $this->version, #939.
+     *
+     * @return string
+     */
+    public static function appName()
+    {
+        $module = Module::getInstanceByName('kwtsms');
+        $version = ($module && !empty($module->version)) ? (string) $module->version : '0';
+
+        return 'kwtsms-prestashop/' . preg_replace('/[^0-9A-Za-z.+-]/', '', $version);
+    }
+
+    /**
      * Get or create the KwtSMS client instance using stored credentials.
      *
      * @return KwtSMS|null Null if credentials not configured
@@ -45,7 +60,9 @@ class KwtsmsGateway
             return null;
         }
 
-        $this->client = new KwtSMS($username, $password, $senderId, $testMode);
+        // 2026-11-05 14:59 +03: 6th argument app_name puts kwtsms-prestashop/<version> in the User-Agent; 5th is the
+        // library default 'kwtsms.log', unchanged. Older library versions ignore the extra argument, #939.
+        $this->client = new KwtSMS($username, $password, $senderId, $testMode, 'kwtsms.log', self::appName());
 
         return $this->client;
     }
@@ -64,7 +81,9 @@ class KwtsmsGateway
         $senderId = Configuration::get('KWTSMS_SENDER_ID');
         $testMode = (bool) Configuration::get('KWTSMS_TEST_MODE');
 
-        $tempClient = new KwtSMS($username, $password, $senderId, $testMode);
+        // 2026-11-05 14:59 +03: 6th argument app_name puts kwtsms-prestashop/<version> in the User-Agent; 5th is the
+        // library default 'kwtsms.log', unchanged. Older library versions ignore the extra argument, #939.
+        $tempClient = new KwtSMS($username, $password, $senderId, $testMode, 'kwtsms.log', self::appName());
 
         try {
             $balance = $tempClient->balance();
