@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "kwtsms/kwtsms-php",
-            "version": "v1.7.1",
+            "version": "v1.8.1",
             "source": {
                 "type": "git",
-                "url": "https://github.com/boxlinknet/kwtsms-php.git",
-                "reference": "132285b9f39bcfe33925dfbf9ea614026b87240a"
+                "url": "https://github.com/kwtsms/kwtsms-php.git",
+                "reference": "f4d7acf2420b8f229b9b3994a2786b1d399bd072"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/boxlinknet/kwtsms-php/zipball/132285b9f39bcfe33925dfbf9ea614026b87240a",
-                "reference": "132285b9f39bcfe33925dfbf9ea614026b87240a",
+                "url": "https://api.github.com/repos/kwtsms/kwtsms-php/zipball/f4d7acf2420b8f229b9b3994a2786b1d399bd072",
+                "reference": "f4d7acf2420b8f229b9b3994a2786b1d399bd072",
                 "shasum": ""
             },
             "require": {
@@ -48,7 +48,7 @@
                 }
             ],
             "description": "kwtSMS API Client for PHP. Official library to interface with the Kuwait SMS gateway (kwtsms.com)",
-            "homepage": "https://github.com/boxlinknet/kwtsms-php",
+            "homepage": "https://github.com/kwtsms/kwtsms-php",
             "keywords": [
                 "kuwait",
                 "kwtsms",
@@ -59,10 +59,10 @@
                 "sms-gateway"
             ],
             "support": {
-                "issues": "https://github.com/boxlinknet/kwtsms-php/issues",
-                "source": "https://github.com/boxlinknet/kwtsms-php"
+                "issues": "https://github.com/kwtsms/kwtsms-php/issues",
+                "source": "https://github.com/kwtsms/kwtsms-php"
             },
-            "time": "2026-03-27T13:13:07+00:00"
+            "time": "2026-11-06T08:15:17+00:00"
         }
     ],
     "packages-dev": [],
