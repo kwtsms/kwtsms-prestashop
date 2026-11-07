@@ -1,0 +1,45 @@
+# FILE:      .github/workflows/release.yml
+# CREATED:   2026-11-07 17:13 +03
+# TASK:      release-zips-ci (manager #1060 q1: a release must not need the maintainer laptop)
+# AUTHOR:    M Alhassoun
+# WHAT:      On a v* tag, runs build.sh (committed files + composer runtime vendor/, dev files left out) and attaches
+#            dist/kwtsms.zip to the GitHub release of that tag, creating it if needed. Pull requests only build it.
+# WHY:       The zip used to be built on the laptop; build.sh already builds from the git tree, so CI can run it.
+# USAGE:     git push origin vX.Y.Z (after the approval card).
+# DEPENDS:   GITHUB_TOKEN with contents: write; PHP + composer (setup-php).
+name: Release zip
+
+on:
+  push:
+    tags: ["v*"]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  zip:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.1"
+          tools: composer:v2
+          coverage: none
+
+      - name: Build dist/kwtsms.zip
+        run: |
+          bash build.sh
+          unzip -Z1 dist/kwtsms.zip | grep -E '^kwtsms/kwtsms\.php$'
+          unzip -Z1 dist/kwtsms.zip | grep -E '^kwtsms/vendor/autoload\.php$'
+
+      - name: Attach to the GitHub release
+        if: startsWith(github.ref, 'refs/tags/')
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAG: ${{ github.ref_name }}
+        run: |
+          gh release upload "$TAG" dist/kwtsms.zip --clobber || gh release create "$TAG" --title "$TAG" --notes "Release $TAG" dist/kwtsms.zip
