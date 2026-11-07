@@ -2,7 +2,7 @@
 <module>
     <name>kwtsms</name>
     <displayName><![CDATA[kwtSMS - SMS Notifications &amp; Alerts]]></displayName>
-    <version><![CDATA[1.0.0]]></version>
+    <version><![CDATA[1.0.1]]></version>
     <description><![CDATA[Send SMS notifications to customers and admins via kwtSMS gateway. Order confirmations, status updates, new customer alerts, payment confirmations, and low stock alerts.]]></description>
     <author><![CDATA[kwtSMS]]></author>
     <tab><![CDATA[advertising_marketing]]></tab>
