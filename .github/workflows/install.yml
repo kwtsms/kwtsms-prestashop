@@ -1,0 +1,93 @@
+# FILE:      .github/workflows/install.yml
+# CREATED:   2026-11-07 18:06 +03
+# TASK:      prestashop-ci-install
+# AUTHOR:    M Alhassoun
+# WHAT:      Builds dist/kwtsms.zip with build.sh, installs it on a fresh PrestaShop 9.0 and 8.2 (official Docker
+#            images, MySQL 8) with the PrestaShop console, checks the module's tables, then on 9.0 sends one SMS through
+#            the module with test=1 to the test number (queued, never delivered).
+# WHY:       The module had no install test; the README claims PrestaShop 8.0 to 9.x.
+# USAGE:     Runs on pull requests to main and by hand (Actions > PrestaShop install > Run workflow).
+# DEPENDS:   Docker on the runner. Secrets KWTSMS_USERNAME, KWTSMS_PASSWORD, KWTSMS_TEST_NUMBER for the live step
+#            (skipped when absent). The 9.0 image auto-installs only with PS_FOLDER_ADMIN=admin-dev (lesson 2026-11-07).
+name: PrestaShop install
+
+on:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  install:
+    name: PrestaShop ${{ matrix.ps }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - ps: "9.0"
+            live: true
+          - ps: "8.2"
+            live: false
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.1"
+          tools: composer:v2
+          coverage: none
+
+      - name: Build the module zip
+        run: |
+          bash build.sh
+          rm -rf /tmp/mod && mkdir /tmp/mod && unzip -q dist/kwtsms.zip -d /tmp/mod && ls /tmp/mod
+
+      - name: Start MySQL and PrestaShop ${{ matrix.ps }}
+        run: |
+          docker network create psnet
+          docker run -d --name db --network psnet -e MYSQL_ROOT_PASSWORD=ci -e MYSQL_DATABASE=prestashop mysql:8.0
+          until docker exec db mysqladmin ping -h 127.0.0.1 -pci --silent; do sleep 3; done
+          docker run -d --name web --network psnet -p 8080:80 \
+            -e DB_SERVER=db -e DB_NAME=prestashop -e DB_USER=root -e DB_PASSWD=ci \
+            -e PS_INSTALL_AUTO=1 -e PS_DOMAIN=localhost:8080 -e PS_FOLDER_ADMIN=admin-dev -e PS_FOLDER_INSTALL=install-done \
+            -e ADMIN_MAIL=ci.admin@example.com -e ADMIN_PASSWD="Ci$(openssl rand -hex 8)" -e PS_COUNTRY=KW -e PS_LANGUAGE=en \
+            prestashop/prestashop:${{ matrix.ps }}
+          for i in $(seq 1 90); do
+            code=$(curl -s -o /dev/null -w '%{http_code}' http://localhost:8080/admin-dev/ || true)
+            case "$code" in 200|302) break;; esac
+            [ "$(docker inspect -f '{{.State.Running}}' web)" = "true" ] || { docker logs web | tail -30; exit 1; }
+            sleep 10
+          done
+          echo "admin http $code"; case "$code" in 200|302) ;; *) docker logs web | tail -30; exit 1;; esac
+
+      - name: Install the module with the PrestaShop console
+        run: |
+          docker cp /tmp/mod/kwtsms web:/var/www/html/modules/kwtsms
+          docker exec web chown -R www-data:www-data /var/www/html/modules/kwtsms
+          docker exec -u www-data web php /var/www/html/bin/console prestashop:module install kwtsms
+          docker exec -u www-data web php /var/www/html/bin/console prestashop:module status kwtsms || true
+
+      - name: Module tables exist
+        run: |
+          n=$(docker exec db mysql -uroot -pci prestashop -N -e "SHOW TABLES LIKE '%kwtsms%'" 2>/dev/null | wc -l)
+          echo "kwtsms tables: $n"
+          [ "$n" -ge 5 ]
+
+      - name: One live send through the module (test=1)
+        if: matrix.live
+        env:
+          KWTSMS_USERNAME: ${{ secrets.KWTSMS_USERNAME }}
+          KWTSMS_PASSWORD: ${{ secrets.KWTSMS_PASSWORD }}
+          KWTSMS_TEST_NUMBER: ${{ secrets.KWTSMS_TEST_NUMBER }}
+        run: |
+          if [ -z "$KWTSMS_USERNAME" ] || [ -z "$KWTSMS_TEST_NUMBER" ]; then echo "No credentials (fork?): skipped"; exit 0; fi
+          docker cp .github/ci/live-send.php web:/tmp/live-send.php
+          docker exec -u www-data -e KWTSMS_USERNAME -e KWTSMS_PASSWORD -e KWTSMS_TEST_NUMBER web php /tmp/live-send.php
+
+      - name: Container log on failure
+        if: failure()
+        run: docker logs web 2>&1 | tail -60
