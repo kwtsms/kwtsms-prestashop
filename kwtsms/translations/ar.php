@@ -89,6 +89,8 @@ $_MODULE['<{kwtsms}prestashop>gateway_11931512987fbd1b884da55f13273a07'] = 'اس
 $_MODULE['<{kwtsms}prestashop>gateway_f695896133aa40bcf153a12ea4822235'] = 'أدخل اسم مستخدم kwtSMS';
 $_MODULE['<{kwtsms}prestashop>gateway_5e07b6956454390018af63962ef4a3f6'] = 'كلمة مرور API';
 $_MODULE['<{kwtsms}prestashop>gateway_561b28f5032d4f3782206ddee4da9fb4'] = 'أدخل كلمة مرور kwtSMS';
+// 2026-11-07 07:33 +03: placeholder when a password is saved (the page no longer shows it), task int-rerelease-number.
+$_MODULE['<{kwtsms}prestashop>gateway_6b2bed9c2c8c8248278917caae31ea82'] = 'محفوظة. اتركها فارغة للإبقاء عليها.';
 $_MODULE['<{kwtsms}prestashop>gateway_49ab28040dfa07f53544970c6d147e1e'] = 'اتصال';
 $_MODULE['<{kwtsms}prestashop>gateway_094cffb0d628512d6970ca8ab3b3e601'] = 'متصل. الرصيد:';
 $_MODULE['<{kwtsms}prestashop>gateway_766a5d9342c36f103be3a60204a3e9ea'] = 'وحدة.';

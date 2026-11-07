@@ -37,7 +37,7 @@ class Kwtsms extends Module
     {
         $this->name = 'kwtsms';
         $this->tab = 'advertising_marketing';
-        $this->version = '1.0.0';
+        $this->version = '1.0.1';
         $this->author = 'kwtSMS';
         $this->need_instance = 0;
         $this->ps_versions_compliancy = array('min' => '8.0.0', 'max' => '9.99.99');

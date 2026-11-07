@@ -39,8 +39,8 @@
             <label for="kwtsms_password">{l s='API Password' mod='kwtsms'}</label>
             <input type="password" id="kwtsms_password" name="kwtsms_password"
                    class="form-control"
-                   value="{$kwtsms_password|escape:'html':'UTF-8'}"
-                   placeholder="{l s='Enter your kwtSMS password' mod='kwtsms'}" />
+                   value="" autocomplete="new-password"
+                   placeholder="{if $kwtsms_password_saved}{l s='Saved. Leave empty to keep it.' mod='kwtsms'}{else}{l s='Enter your kwtSMS password' mod='kwtsms'}{/if}" />
           </div>
         </div>
         <div class="col-md-2">

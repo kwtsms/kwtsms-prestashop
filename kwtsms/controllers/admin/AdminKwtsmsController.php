@@ -188,7 +188,9 @@ class AdminKwtsmsController extends ModuleAdminController
             'test_mode'            => (bool) Configuration::get('KWTSMS_TEST_MODE'),
             'debug_mode'           => (bool) Configuration::get('KWTSMS_DEBUG_MODE'),
             'kwtsms_username'      => Configuration::get('KWTSMS_USERNAME'),
-            'kwtsms_password'      => Configuration::get('KWTSMS_PASSWORD'),
+            // 2026-11-07 07:33 +03: never send the stored API password to the browser (it was in the field's value); only
+            // say whether one is saved. Found in the PrestaShop 9.0.3 Docker QA, task int-rerelease-number.
+            'kwtsms_password_saved' => (string) Configuration::get('KWTSMS_PASSWORD') !== '',
             'current_sender_id'    => Configuration::get('KWTSMS_SENDER_ID'),
             'current_country_code' => Configuration::get('KWTSMS_DEFAULT_COUNTRY_CODE'),
             'sender_ids'           => $gateway->getCachedSenderIds(),
@@ -211,6 +213,10 @@ class AdminKwtsmsController extends ModuleAdminController
             case 'connect':
                 $username = Tools::getValue('kwtsms_username');
                 $password = Tools::getValue('kwtsms_password');
+                // 2026-11-07 07:33 +03: empty field = keep the saved password (the page no longer shows it).
+                if ($password === '' || $password === false) {
+                    $password = (string) Configuration::get('KWTSMS_PASSWORD');
+                }
 
                 if (empty($username) || empty($password)) {
                     $this->context->smarty->assign(array(
