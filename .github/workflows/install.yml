@@ -28,6 +28,9 @@ jobs:
       fail-fast: false
       matrix:
         include:
+          # 2026-11-08 11:14 +03: 9.2 (current release, image 2026-10-23) added; weekly upstream check, compat
+          - ps: "9.2"
+            live: false
           - ps: "9.0"
             live: true
           - ps: "8.2"
