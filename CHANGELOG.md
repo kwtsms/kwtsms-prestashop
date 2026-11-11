@@ -16,15 +16,12 @@ All notable changes to the kwtSMS PrestaShop module are documented in this file.
 
 ## [1.0.1] - 2026-11-07
 
-### Security
-- The Gateway page no longer puts the saved API password into the page. Leave the field empty to keep the saved password.
+### Added
+- Integration name and version sent with requests.
 
 ### Changed
-- Bundled kwtSMS PHP client updated to 1.8.1.
-- Docs and examples use the placeholder 965XXXXXXXX instead of a sample mobile number.
-
-### Added
-- Requests to kwtSMS carry the integration name and version (no personal data) so kwtSMS can see which integrations are in use.
+- Bundled kwtSMS PHP client updated.
+- Bug fixes.
 
 ## [1.0.0]
 
