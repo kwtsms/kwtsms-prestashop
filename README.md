@@ -9,6 +9,8 @@
   <a href="https://www.kwtsms.com">kwtSMS</a> gateway.
 </p>
 
+<p align="center">All kwtSMS integrations: <a href="https://www.kwtsms.com/integrations/">kwtsms.com/integrations</a></p>
+
 <p align="center">
   <a href="https://github.com/kwtsms/kwtsms-prestashop/releases/latest"><img src="https://img.shields.io/github/v/release/kwtsms/kwtsms-prestashop?style=flat-square&label=version&color=FFA200" alt="Version"></a>
   <img src="https://img.shields.io/badge/PrestaShop-8.0--9.x-251B5B?style=flat-square&logo=prestashop&logoColor=white" alt="PrestaShop 8.0 - 9.x">
