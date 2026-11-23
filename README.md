@@ -1,6 +1,7 @@
-<p align="center">
-  <img src="https://www.kwtsms.com/images/kwtsms_logo_60.png" alt="kwtSMS" height="60">
-</p>
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset=".github/assets/readme-header-dark.png">
+  <img alt="kwtSMS for PrestaShop" src=".github/assets/readme-header-light.png">
+</picture>
 
 <h1 align="center">kwtSMS for PrestaShop</h1>
 
